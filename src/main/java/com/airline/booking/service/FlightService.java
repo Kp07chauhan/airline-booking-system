@@ -16,7 +16,7 @@ public class FlightService {
 
     private final FlightRepository flightRepository;
 
-    // ✅ ADMIN - Add Flight
+
     public FlightResponseDto addFlight(CreateFlightDto dto) {
 
         Flight flight = new Flight();
@@ -32,7 +32,6 @@ public class FlightService {
         return mapToDto(saved);
     }
 
-    // ✅ USER - Search Flights
     public List<FlightResponseDto> searchFlights(SearchFlightDto dto) {
 
         return flightRepository
@@ -42,7 +41,6 @@ public class FlightService {
                 .toList();
     }
 
-    // ✅ Common Mapper
     private FlightResponseDto mapToDto(Flight flight) {
         return new FlightResponseDto(
                 flight.getId(),

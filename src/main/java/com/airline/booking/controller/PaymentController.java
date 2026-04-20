@@ -11,13 +11,13 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    // ✅ 1. CREATE PAYMENT LINK
+
     @GetMapping("/link/{bookingId}")
     public String generatePaymentLink(@PathVariable Long bookingId) throws Exception {
         return paymentService.createPaymentLink(bookingId);
     }
 
-    // ✅ 2. PAYMENT CALLBACK (FROM RAZORPAY)
+
     @GetMapping("/success")
     public String paymentSuccess(
             @RequestParam Long bookingId,
@@ -48,14 +48,14 @@ public class PaymentController {
                     true,
                     razorpay_payment_id
             );
-            return "✅ Payment Successful & Booking Confirmed";
+            return "Payment Successful & Booking Confirmed";
         } else {
             paymentService.updatePaymentStatus(
                     bookingId,
                     false,
                     razorpay_payment_id
             );
-            return "❌ Payment Failed";
+            return "Payment Failed";
         }
     }
 }

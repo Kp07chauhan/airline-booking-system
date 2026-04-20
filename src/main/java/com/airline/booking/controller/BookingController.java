@@ -21,7 +21,7 @@ public class BookingController {
 
 
 
-    // ✅ BOOK FLIGHT
+
     @PostMapping
     public BookingResponseDto bookFlight(@RequestBody BookingRequestDto dto) {
 
@@ -33,7 +33,7 @@ public class BookingController {
         return bookingService.bookFlight(email, dto);
     }
 
-    // ✅ GET MY BOOKINGS
+
     @GetMapping("/my")
     public List<BookingResponseDto> myBookings() {
 

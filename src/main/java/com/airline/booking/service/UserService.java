@@ -28,7 +28,7 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ Register
+
     public ResponseUserDto registerUser(RegisterUserDto dto){
 
         if (userRepository.existsByEmail(dto.getEmail())) {
@@ -50,7 +50,6 @@ public class UserService {
         );
     }
 
-    // ✅ Login (JWT)
     public LoginResponseDto loginUser(LoginUserDto dto){
 
         User user = userRepository.findByEmail(dto.getEmail())
@@ -62,7 +61,7 @@ public class UserService {
 
         String token = jwtUtil.generateToken(
                 user.getEmail(),
-                user.getRole().name()   // ✅ PASS ROLE
+                user.getRole().name()
         );
 
         return new LoginResponseDto(token);

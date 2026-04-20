@@ -18,12 +18,12 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔗 Many bookings → one user
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // 🔗 Many bookings → one flight
+
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
@@ -31,16 +31,16 @@ public class Booking {
     private Integer numberOfSeats;
     private Double totalPrice;
 
-    // ✅ ONLY ONE booking status
+
     @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
 
     private LocalDateTime bookingTime;
 
-    // ✅ Payment status
+
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    // ✅ ADD THIS (IMPORTANT)
+
     private String paymentId;
 }

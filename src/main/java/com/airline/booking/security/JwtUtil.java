@@ -18,11 +18,11 @@ public class JwtUtil {
     private static final String SECRET = "mysecretkeymysecretkeymysecretkey123";
     private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
 
-    // 🔐 Generate Token WITH ROLE
+
     public String generateToken(String email, String role) {
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);   // ✅ ADD ROLE
+        claims.put("role", role);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -33,22 +33,22 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 📌 Extract Email
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // 📌 Extract ROLE
+
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
 
-    // 📌 Validate Token
+
     public boolean validateToken(String token, String email) {
         return email.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
-    // 🔧 Helpers
+
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }

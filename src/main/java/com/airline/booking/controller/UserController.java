@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/register")               // /api/airline/booking/user/register
+    @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> registerUser(@RequestBody RegisterUserDto registerUserDto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)

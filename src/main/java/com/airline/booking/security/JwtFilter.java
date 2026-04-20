@@ -36,13 +36,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
 
         String email = jwtUtil.extractUsername(token);
-        String role = jwtUtil.extractRole(token);   // ✅ EXTRACT ROLE
+        String role = jwtUtil.extractRole(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             if (jwtUtil.validateToken(token, email)) {
 
-                // ✅ Convert role → Spring format
                 SimpleGrantedAuthority authority =
                         new SimpleGrantedAuthority("ROLE_" + role);
 

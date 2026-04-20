@@ -20,13 +20,13 @@ public class FlightController {
 
     private final FlightService flightService;
 
-    // ✅ ADMIN ONLY
+
     @PostMapping("/add")
     public ResponseEntity<FlightResponseDto> addFlight(@RequestBody CreateFlightDto dto) {
         return ResponseEntity.ok(flightService.addFlight(dto));
     }
 
-    // ✅ USER + ADMIN
+
     @PostMapping("/search")
     public ResponseEntity<List<FlightResponseDto>> searchFlights(@RequestBody SearchFlightDto dto) {
         return ResponseEntity.ok(flightService.searchFlights(dto));

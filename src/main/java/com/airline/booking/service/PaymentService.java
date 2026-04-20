@@ -29,15 +29,11 @@ public class PaymentService {
     @Value("${razorpay.key.secret}")
     private String keySecret;
 
-    // =========================================================
-    // ✅ 1. CREATE PAYMENT LINK
-    // =========================================================
     public String createPaymentLink(Long bookingId) throws Exception {
 
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        // ❌ prevent duplicate payment
         if (booking.getPaymentStatus() == PaymentStatus.SUCCESS) {
             throw new RuntimeException("Payment already completed");
         }
@@ -46,7 +42,6 @@ public class PaymentService {
 
         JSONObject options = new JSONObject();
 
-        // ✅ FIX: amount must be integer (paisa)
         options.put("amount", (int)(booking.getTotalPrice() * 100));
         options.put("currency", "INR");
         options.put("description", "Flight Booking Payment");
@@ -56,7 +51,6 @@ public class PaymentService {
         customer.put("email", booking.getUser().getEmail());
         options.put("customer", customer);
 
-        // ✅ CALLBACK URL (VERY IMPORTANT)
         options.put(
                 "callback_url",
                 "http://localhost:8080/api/airline/booking/payment-success?bookingId=" + bookingId
@@ -64,15 +58,11 @@ public class PaymentService {
 
         options.put("callback_method", "get");
 
-        // ✅ Create payment link
         com.razorpay.PaymentLink link = client.paymentLink.create(options);
 
         return link.get("short_url");
     }
 
-    // =========================================================
-    // ✅ 2. VERIFY SIGNATURE (SECURITY)
-    // =========================================================
     public boolean verifySignature(String orderId, String paymentId, String razorpaySignature) {
 
         try {
@@ -92,9 +82,6 @@ public class PaymentService {
         }
     }
 
-    // =========================================================
-    // ✅ 3. UPDATE PAYMENT STATUS
-    // =========================================================
     public Booking updatePaymentStatus(Long bookingId, boolean success, String paymentId) {
 
         Booking booking = bookingRepository.findById(bookingId)
@@ -109,13 +96,12 @@ public class PaymentService {
             booking.setPaymentStatus(PaymentStatus.FAILED);
             booking.setBookingStatus(BookingStatus.CANCELLED);
 
-            // ♻️ return seats
             Flight flight = booking.getFlight();
             flight.setSeatsAvailable(
                     flight.getSeatsAvailable() + booking.getNumberOfSeats()
             );
 
-            flightRepository.save(flight); // ✅ IMPORTANT
+            flightRepository.save(flight);
         }
 
         return bookingRepository.save(booking);

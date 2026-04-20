@@ -21,13 +21,13 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
-    // ✅ Password Encoder
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Authentication Manager
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -41,17 +41,17 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ PUBLIC APIs
+
                         .requestMatchers("/user/register", "/user/login").permitAll()
 
-                        // 🔐 ROLE BASED
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/flight/add").hasRole("ADMIN")
                         .requestMatchers("/flight/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/booking/**").hasAnyRole("USER", "ADMIN")
 
-                        // 🔥 FIXED LINE
+
                         .requestMatchers("/payments/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(
                                         "/v3/api-docs/**",
