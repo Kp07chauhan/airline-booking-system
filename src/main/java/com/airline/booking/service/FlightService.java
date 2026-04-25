@@ -48,6 +48,14 @@ public class FlightService {
         return savedFlight.stream().map(this::mapToDto).toList();
     }
 
+    public void deleteFlight(Long flightId) {
+
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
+
+        flightRepository.delete(flight);
+    }
+
     public List<FlightResponseDto> searchFlights(SearchFlightDto dto) {
 
         return flightRepository

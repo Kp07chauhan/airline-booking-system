@@ -28,6 +28,13 @@ public class FlightController {
         return ResponseEntity.ok(flightService.addMultipleFlight(dtoList));
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFlight(@PathVariable Long id) {
+
+        flightService.deleteFlight(id);
+        return ResponseEntity.ok("Flight deleted successfully");
+    }
+
 
     @PostMapping("/search")
     public ResponseEntity<List<FlightResponseDto>> searchFlights(@RequestBody SearchFlightDto dto) {
