@@ -6,10 +6,7 @@ import com.airline.booking.dto.flight.SearchFlightDto;
 import com.airline.booking.service.FlightService;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +23,19 @@ public class FlightController {
         return ResponseEntity.ok(flightService.addFlight(dto));
     }
 
+    @PostMapping("/add-multiple")
+    public ResponseEntity<List<FlightResponseDto>> addMultipleFlight(@RequestBody List<CreateFlightDto> dtoList){
+        return ResponseEntity.ok(flightService.addMultipleFlight(dtoList));
+    }
+
 
     @PostMapping("/search")
     public ResponseEntity<List<FlightResponseDto>> searchFlights(@RequestBody SearchFlightDto dto) {
         return ResponseEntity.ok(flightService.searchFlights(dto));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<FlightResponseDto>> getAllFlights() {
+        return ResponseEntity.ok(flightService.getAllFlights());
     }
 }

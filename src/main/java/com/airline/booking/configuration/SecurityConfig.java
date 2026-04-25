@@ -47,7 +47,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/flight/add").hasRole("ADMIN")
+                        .requestMatchers("/flight/add","/flight/add-multiple").hasRole("ADMIN")
                         .requestMatchers("/flight/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/booking/**").hasAnyRole("USER", "ADMIN")
 

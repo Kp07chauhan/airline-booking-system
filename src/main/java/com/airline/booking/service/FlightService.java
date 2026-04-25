@@ -32,11 +32,36 @@ public class FlightService {
         return mapToDto(saved);
     }
 
+    public List<FlightResponseDto> addMultipleFlight(List<CreateFlightDto> createFlightDtoList){
+        List<Flight> flights = createFlightDtoList.stream().map(dto -> {
+            Flight flight = new Flight();
+            flight.setSource(dto.getSource());
+            flight.setDestination(dto.getDestination());
+            flight.setArrivalTime(dto.getArrivalTime());
+            flight.setPrice(dto.getPrice());
+            flight.setSeatsAvailable(dto.getSeatsAvailable());
+            return flight;
+        }).toList();
+
+        List<Flight> savedFlight = flightRepository.saveAll(flights);
+
+        return savedFlight.stream().map(this::mapToDto).toList();
+    }
+
     public List<FlightResponseDto> searchFlights(SearchFlightDto dto) {
 
         return flightRepository
                 .findBySourceAndDestination(dto.getSource(), dto.getDestination())
                 .stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+
+    public List<FlightResponseDto> getAllFlights() {
+
+        List<Flight> flights = flightRepository.findAll();
+
+        return flights.stream()
                 .map(this::mapToDto)
                 .toList();
     }
