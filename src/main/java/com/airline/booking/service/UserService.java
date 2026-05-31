@@ -53,10 +53,10 @@ public class UserService {
     public LoginResponseDto loginUser(LoginUserDto dto){
 
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new RuntimeException("Invalid credentials !"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new RuntimeException("Invalid credentials !");
         }
 
         String token = jwtUtil.generateToken(
